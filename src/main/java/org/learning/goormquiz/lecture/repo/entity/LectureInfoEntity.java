@@ -4,12 +4,16 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Lob;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Getter
 @Embeddable
+@NoArgsConstructor
+@AllArgsConstructor
 public class LectureInfoEntity {
 
     /**
@@ -27,4 +31,8 @@ public class LectureInfoEntity {
     @Column(columnDefinition = "TEXT")
     @Convert(converter = LectureConverter.class)
     private List<String> target;
+
+    public void updateTitle(String title) {
+        this.title = title;
+    }
 }

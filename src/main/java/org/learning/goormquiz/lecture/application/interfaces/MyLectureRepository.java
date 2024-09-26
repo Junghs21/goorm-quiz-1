@@ -1,6 +1,7 @@
 package org.learning.goormquiz.lecture.application.interfaces;
 
-public interface MyLectureRepository {
+import org.learning.goormquiz.lecture.repo.entity.Lectures;
 
+public interface MyLectureRepository {
     Lectures findAllByMemberId(Long memberId);
 }

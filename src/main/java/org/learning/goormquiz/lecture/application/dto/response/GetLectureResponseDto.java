@@ -3,6 +3,7 @@ package org.learning.goormquiz.lecture.application.dto.response;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import lombok.Builder;
+import org.learning.goormquiz.lecture.repo.entity.LectureEntity;
 
 @Builder
 public record GetLectureResponseDto(
@@ -15,7 +16,7 @@ public record GetLectureResponseDto(
     List<String> goals,
     List<String> target) {
 
-    public static GetLectureResponseDto fromEntity(Lecture lecture) {
+    public static GetLectureResponseDto fromEntity(LectureEntity lecture) {
         return GetLectureResponseDto.builder()
             .lectureId(lecture.getLectureId())
             .title(lecture.getTitle())

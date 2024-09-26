@@ -6,8 +6,14 @@ import org.learning.goormquiz.lecture.application.dto.request.CreateLectureReque
 import org.learning.goormquiz.lecture.application.dto.request.UpdateLectureTitleRequestDto;
 import org.learning.goormquiz.lecture.application.dto.response.GetLectureResponseDto;
 import org.learning.goormquiz.lecture.application.interfaces.LectureRepository;
+import org.learning.goormquiz.lecture.repo.entity.LectureEntity;
+import org.learning.goormquiz.lecture.repo.entity.LectureInfoEntity;
+import org.learning.goormquiz.lecture.repo.entity.PriceEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -21,7 +27,9 @@ public class LectureService {
      * lectureRepository에서 데이터를 조회
      */
     public GetLectureResponseDto findLecture(Long lectureId) {
-        return null;
+        LectureEntity lecture = lectureRepository.findById(lectureId);
+
+        return GetLectureResponseDto.fromEntity(lecture);
     }
 
     /**
@@ -30,7 +38,14 @@ public class LectureService {
      */
     @Transactional
     public CommonSuccessDto createLecture(CreateLectureRequestDto dto) {
-        return null;
+        LectureInfoEntity lectureInfo = new LectureInfoEntity(dto.title(), dto.goals(), dto.target());
+        PriceEntity price = new PriceEntity(dto.price());
+        LectureEntity lecture = new LectureEntity(null, lectureInfo, dto.instructor(), dto.imageUrl(),
+                price, dto.lectureUrl());
+
+        lectureRepository.save(lecture);
+
+        return new CommonSuccessDto(true);
     }
 
     /**
@@ -39,7 +54,10 @@ public class LectureService {
      */
     @Transactional
     public CommonSuccessDto updateLecture(Long lectureId, UpdateLectureTitleRequestDto dto) {
-        return null;
+        LectureEntity lecture = lectureRepository.findById(lectureId);
+        lecture.updateTitle(dto.title());
+
+        return new CommonSuccessDto(true);
     }
 
     /**
@@ -48,6 +66,9 @@ public class LectureService {
      */
     @Transactional
     public CommonSuccessDto deleteLecture(Long lectureId) {
-        return null;
+        LectureEntity lecture = lectureRepository.findById(lectureId);
+        lectureRepository.delete(lecture);
+
+        return new CommonSuccessDto(true);
     }
 }
